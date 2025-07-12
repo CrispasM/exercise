@@ -1,0 +1,42 @@
+<!-- Visualizes graph with D3.js -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Malawi District Graph</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    circle { fill: #007acc; }
+    line { stroke: #aaa; }
+    text { font: 12px sans-serif; }
+  </style>
+</head>
+<body>
+  <svg width="600" height="600"></svg>
+  <script type="module">
+    import { nodes, edges } from './data.js';
+    import './layout.js';
+
+    const svg = d3.select("svg");
+
+    const link = svg.selectAll("line")
+      .data(edges).enter().append("line")
+      .attr("x1", d => d.source.x * 600)
+      .attr("y1", d => d.source.y * 600)
+      .attr("x2", d => d.target.x * 600)
+      .attr("y2", d => d.target.y * 600);
+
+    const node = svg.selectAll("circle")
+      .data(nodes).enter().append("circle")
+      .attr("r", 5)
+      .attr("cx", d => d.x * 600)
+      .attr("cy", d => d.y * 600);
+
+    svg.selectAll("text")
+      .data(nodes).enter().append("text")
+      .text(d => d.id)
+      .attr("x", d => d.x * 600 + 6)
+      .attr("y", d => d.y * 600 + 3);
+  </script>
+</body>
+</html>
